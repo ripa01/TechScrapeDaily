@@ -3,13 +3,17 @@ from bs4 import BeautifulSoup
 import requests
 
 
-url = "https://www.thedailystar.net/tech-startup"
-req = requests.get(url)
-soup = BeautifulSoup(req.content, 'html.parser')
+app = Flask(__name__)
+@app.route('/',methods=["GET","POST"])
+def index():
 
-finalNews=""
-for data in soup.find_all("div",class_="card-content",limit=10):
-        news=data.a.string
-        finalNews += '\u2022 ' +news+'\n'
-print(finalNews)
+        url = "https://www.thedailystar.net/tech-startup"
+        req = requests.get(url)
+        soup = BeautifulSoup(req.content, 'html.parser')
+
+        finalNews=""
+        for data in soup.find_all("div",class_="card-content",limit=10):
+                news=data.p.string
+                finalNews += '\u2022 ' +news+'\n'
+        return render_template("index.html",News=finalNews)
     
