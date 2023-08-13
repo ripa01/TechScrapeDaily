@@ -12,8 +12,9 @@ def index():
         soup = BeautifulSoup(req.content, 'html.parser')
 
         finalNews=""
-        for data in soup.find_all("div",class_="card-content",limit=10):
-                news=data.p.string
-                finalNews += '\u2022 ' +news+'\n'
-        return render_template("index.html",News=finalNews)
-    
+        for i, data in enumerate(soup.find_all("div", class_="card-content")):
+                if 3 <= i < 11:  # This will include elements at indices 3 to 10 (8 elements in total)
+                        news = data.p.string
+                        finalNews += '\u2022 ' + news + '\n'
+
+        return render_template("index.html", News=finalNews)
